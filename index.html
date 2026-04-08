@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Style Edit — Trending Women's Looks</title>
+  <meta name="description" content="Curated fashion looks and outfit ideas for every mood. Browse trending styles and discover your next look.">
+
+  <!-- Fonts: Playfair Display (editorial serif) + DM Sans (clean UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* =============================================
+       DESIGN TOKENS
+    ============================================= */
+    :root {
+      --pink:        #FF4D6A;   /* primary CTA */
+      --pink-light:  #FFF0F3;   /* soft surface */
+      --pink-mid:    #FFD6DE;   /* hover tint */
+      --dark:        #1C1C1E;
+      --mid:         #5A5A5A;
+      --muted:       #ABABAB;
+      --white:       #FFFFFF;
+      --bg:          #FEFEFE;
+      --border:      #F0EDED;
+
+      --serif:  'Playfair Display', Georgia, serif;
+      --sans:   'DM Sans', system-ui, sans-serif;
+
+      --nav-h:   58px;
+      --sticky-h: 68px;
+      --r-card:  12px;
+      --r-btn:   50px;
+
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* =============================================
+       RESET + BASE
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    body {
+      font-family: var(--sans);
+      font-size: 16px;
+      color: var(--dark);
+      background: var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; object-fit: cover; }
+    a   { color: inherit; text-decoration: none; }
+    button { cursor: pointer; border: none; background: none; font-family: var(--sans); }
+
+    /* =============================================
+       SCROLLBAR (subtle)
+    ============================================= */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--pink-mid); border-radius: 10px; }
+
+    /* =============================================
+       CTA BUTTON
+    ============================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 36px;
+      border-radius: var(--r-btn);
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      transition: all 0.25s var(--ease-out);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .btn--primary {
+      background: var(--pink);
+      color: var(--white);
+      box-shadow: 0 6px 24px rgba(255, 77, 106, 0.35);
+    }
+    .btn--primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(255, 77, 106, 0.45);
+    }
+    .btn--primary:active { transform: translateY(0); }
+    .btn--outline {
+      background: transparent;
+      color: var(--pink);
+      border: 1.5px solid var(--pink);
+    }
+    .btn--outline:hover {
+      background: var(--pink);
+      color: var(--white);
+    }
+    .btn--lg { padding: 17px 48px; font-size: 16px; }
+    .btn--sm { padding: 10px 22px; font-size: 13px; }
+    .btn svg { width: 16px; height: 16px; }
+
+    /* =============================================
+       NAV
+    ============================================= */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      background: rgba(254,254,254,0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav__logo {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--dark);
+      letter-spacing: -0.01em;
+    }
+    .nav__logo span { color: var(--pink); }
+    .nav__cta { }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    .hero {
+      padding-top: calc(var(--nav-h) + 40px);
+      padding-bottom: 60px;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+    }
+    .hero__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .hero__tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--pink);
+      background: var(--pink-light);
+      padding: 6px 14px;
+      border-radius: var(--r-btn);
+      margin-bottom: 20px;
+    }
+    .hero__title {
+      font-family: var(--serif);
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      color: var(--dark);
+    }
+    .hero__title em {
+      font-style: italic;
+      color: var(--pink);
+    }
+    .hero__desc {
+      font-size: 17px;
+      color: var(--mid);
+      line-height: 1.75;
+      margin-bottom: 36px;
+      max-width: 420px;
+    }
+    .hero__actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .hero__scroll-hint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 32px;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .hero__scroll-hint::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--muted);
+    }
+
+    /* Hero image collage */
+    .hero__collage {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 280px 180px;
+      gap: 10px;
+    }
+    .hero__collage-img {
+      border-radius: var(--r-card);
+      overflow: hidden;
+      background: var(--pink-light);
+    }
+    .hero__collage-img:first-child {
+      grid-row: 1 / 3;
+      border-radius: 80px var(--r-card) var(--r-card) var(--r-card);
+    }
+    .hero__collage-img:nth-child(2) {
+      border-radius: var(--r-card) 80px var(--r-card) var(--r-card);
+    }
+    .hero__collage-img:nth-child(3) {
+      border-radius: var(--r-card) var(--r-card) 80px var(--r-card);
+    }
+    .hero__collage-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s var(--ease-out);
+    }
+    .hero__collage-img:hover img { transform: scale(1.04); }
+
+    /* =============================================
+       MARQUEE STRIP
+    ============================================= */
+    .marquee-strip {
+      background: var(--dark);
+      overflow: hidden;
+      padding: 14px 0;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      animation: marquee 18s linear infinite;
+      width: max-content;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 32px;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      white-space: nowrap;
+    }
+    .marquee-item .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--pink);
+      flex-shrink: 0;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* =============================================
+       LOOK GRID
+    ============================================= */
+    .looks {
+      padding: 80px 0 40px;
+      background: var(--bg);
+    }
+    .looks__header {
+      max-width: 1200px;
+      margin: 0 auto 40px;
+      padding: 0 24px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .looks__title {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+    .looks__title em { font-style: italic; color: var(--pink); }
+    .looks__subtitle {
+      font-size: 15px;
+      color: var(--mid);
+      margin-top: 8px;
+    }
+    .looks__link {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--pink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: gap 0.2s;
+    }
+    .looks__link:hover { gap: 10px; }
+
+    /* Masonry grid using CSS columns */
+    .looks__grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      columns: 4;
+      column-gap: 12px;
+    }
+    .look-card {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      border-radius: var(--r-card);
+      overflow: hidden;
+      background: var(--pink-light);
+      position: relative;
+      cursor: pointer;
+    }
+    .look-card__img {
+      width: 100%;
+      display: block;
+      transition: transform 0.5s var(--ease-out);
+    }
+    .look-card:hover .look-card__img { transform: scale(1.04); }
+    .look-card__label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 32px 14px 14px;
+      background: linear-gradient(to top, rgba(28,28,30,0.7) 0%, transparent 100%);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .look-card__name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--white);
+      letter-spacing: 0.01em;
+    }
+    .look-card__arrow {
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: all 0.25s;
+      color: var(--white);
+      font-size: 16px;
+    }
+    .look-card:hover .look-card__arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* CTA card — last in grid */
+    .look-card--cta {
+      background: var(--pink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+      padding: 32px 20px;
+    }
+    .look-card--cta:hover { background: #ff3659; }
+    .look-card--cta .cta-card__title {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .look-card--cta .cta-card__sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.8);
+    }
+    .look-card--cta .cta-card__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      color: var(--pink);
+      padding: 10px 22px;
+      border-radius: var(--r-btn);
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .look-card--cta .cta-card__btn:hover { background: var(--dark); color: var(--white); }
+
+    /* =============================================
+       TRUST STRIP
+    ============================================= */
+    .trust {
+      padding: 64px 0;
+      background: var(--pink-light);
+    }
+    .trust__inner {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      text-align: center;
+    }
+    .trust-item__icon {
+      font-size: 28px;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .trust-item__title {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+    .trust-item__text {
+      font-size: 14px;
+      color: var(--mid);
+      line-height: 1.65;
+    }
+
+    /* =============================================
+       FINAL CTA SECTION
+    ============================================= */
+    .final-cta {
+      padding: 100px 0;
+      background: var(--dark);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      top: -120px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(255,77,106,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .final-cta__inner {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .final-cta__eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 20px;
+    }
+    .final-cta__title {
+      font-family: var(--serif);
+      font-size: clamp(30px, 5vw, 48px);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .final-cta__title em { font-style: italic; color: var(--pink); }
+    .final-cta__text {
+      font-size: 16px;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 44px;
+      line-height: 1.75;
+    }
+    .final-cta__actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .final-cta__note {
+      margin-top: 20px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.04em;
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    .footer {
+      padding: 20px 24px;
+      background: #111;
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* =============================================
+       STICKY MOBILE CTA
+    ============================================= */
+    .sticky-cta {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 99;
+      padding: 12px 16px;
+      background: rgba(254,254,254,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+    }
+    .sticky-cta a {
+      display: block;
+      text-align: center;
+      background: var(--pink);
+      color: var(--white);
+      padding: 15px 24px;
+      border-radius: var(--r-btn);
+      font-size: 15px;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(255,77,106,0.4);
+      transition: all 0.2s;
+    }
+    .sticky-cta a:hover { filter: brightness(1.05); }
+
+    /* =============================================
+       FADE-IN ANIMATION
+    ============================================= */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 1024px) {
+      .looks__grid { columns: 3; }
+    }
+
+    @media (max-width: 768px) {
+      .hero__inner {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        text-align: center;
+      }
+      .hero__desc { margin-left: auto; margin-right: auto; }
+      .hero__actions { justify-content: center; }
+      .hero__scroll-hint { justify-content: center; }
+      .hero__collage { order: -1; grid-template-rows: 200px 130px; }
+
+      .looks__grid { columns: 2; }
+      .looks__header { flex-direction: column; align-items: flex-start; }
+
+      .trust__inner { grid-template-columns: 1fr; gap: 32px; }
+
+      .sticky-cta { display: block; }
+      body { padding-bottom: var(--sticky-h); }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding-top: calc(var(--nav-h) + 24px); padding-bottom: 40px; }
+      .hero__collage { grid-template-rows: 160px 110px; }
+      .final-cta { padding: 72px 0; }
+      .final-cta__actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ================================================
+     CONFIG — change only this variable
+================================================ -->
+<script>
+  // Replace with your affiliate / tracking URL
+  var CTA_URL = "https://www.shein.com";
+  var CTA_TEXT_NAV = "View Collection";
+  var CTA_TEXT_HERO = "Explore Looks";
+  var CTA_TEXT_FINAL = "Open Collection";
+</script>
+
+<!-- ================================================
+     NAV
+================================================ -->
+<nav class="nav">
+  <div class="nav__inner">
+    <a class="nav__logo" href="#" id="nav-logo">Style <span>Edit</span></a>
+    <a href="#" id="nav-cta" class="btn btn--primary btn--sm">View Collection</a>
+  </div>
+</nav>
+
+<!-- ================================================
+     HERO
+================================================ -->
+<section class="hero">
+  <div class="hero__inner">
+
+    <!-- Left: copy -->
+    <div class="hero__content">
+      <span class="hero__tag">New Arrivals · Spring–Summer</span>
+      <h1 class="hero__title">Fresh Looks<br><em>You'll Love</em></h1>
+      <p class="hero__desc">
+        Curated outfit ideas and style picks for every mood — from casual everyday to effortlessly chic.
+      </p>
+      <div class="hero__actions">
+        <a href="#" id="hero-cta-main" class="btn btn--primary btn--lg">
+          Explore Looks
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#" id="hero-cta-sec" class="btn btn--outline">Browse Catalog</a>
+      </div>
+      <p class="hero__scroll-hint">scroll to explore</p>
+    </div>
+
+    <!-- Right: photo collage -->
+    <div class="hero__collage">
+      <div class="hero__collage-img">
+        <img
+          src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&h=560&fit=crop&crop=top&auto=format&q=80"
+          alt="Fashion look"
+          loading="eager"
+        >
+      </div>
+      <div class="hero__collage-img">
+        <img
+          src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&h=280&fit=crop&auto=format&q=80"
+          alt="Outfit inspiration"
+          loading="eager"
+        >
+      </div>
+      <div class="hero__collage-img">
+        <img
+          src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&h=180&fit=crop&auto=format&q=80"
+          alt="Style pick"
+          loading="eager"
+        >
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================================================
+     MARQUEE STRIP
+================================================ -->
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track" id="marquee-track">
+    <!-- duplicated for seamless loop -->
+    <span class="marquee-item"><span class="dot"></span>Summer Looks</span>
+    <span class="marquee-item"><span class="dot"></span>Fresh Outfit Ideas</span>
+    <span class="marquee-item"><span class="dot"></span>Everyday Style</span>
+    <span class="marquee-item"><span class="dot"></span>Curated Picks</span>
+    <span class="marquee-item"><span class="dot"></span>Trend-Inspired Fashion</span>
+    <span class="marquee-item"><span class="dot"></span>Modern Wardrobe</span>
+    <span class="marquee-item"><span class="dot"></span>Style Inspiration</span>
+    <span class="marquee-item"><span class="dot"></span>New This Season</span>
+    <!-- repeat -->
+    <span class="marquee-item"><span class="dot"></span>Summer Looks</span>
+    <span class="marquee-item"><span class="dot"></span>Fresh Outfit Ideas</span>
+    <span class="marquee-item"><span class="dot"></span>Everyday Style</span>
+    <span class="marquee-item"><span class="dot"></span>Curated Picks</span>
+    <span class="marquee-item"><span class="dot"></span>Trend-Inspired Fashion</span>
+    <span class="marquee-item"><span class="dot"></span>Modern Wardrobe</span>
+    <span class="marquee-item"><span class="dot"></span>Style Inspiration</span>
+    <span class="marquee-item"><span class="dot"></span>New This Season</span>
+  </div>
+</div>
+
+<!-- ================================================
+     LOOK GRID
+================================================ -->
+<section class="looks">
+  <div class="looks__header fade-in">
+    <div>
+      <h2 class="looks__title">This Season's <em>Picks</em></h2>
+      <p class="looks__subtitle">Scroll through curated outfit ideas and style inspiration</p>
+    </div>
+    <a href="#" class="looks__link cta-link">
+      View all
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+  <div class="looks__grid">
+
+    <!-- Card 1 — tall -->
+    <div class="look-card fade-in">
+      <img
+        class="look-card__img"
+        src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=580&fit=crop&auto=format&q=80"
+        alt="Summer Dress"
+        loading="lazy"
+      >
+      <div class="look-card__label">
+        <span class="look-card__name">Summer Dress</span>
+        <span class="look-card__arrow">→</span>
+      </div>
+    </div>
+
+    <!-- Card 2 — normal -->
+    <div class="look-card fade-in fade-in-delay-1">
+      <img
+        class="look-card__img"
+        src="https://images.unsplash.com/photo-1496747611276-ab1c34990972?w=400&h=360&fit=crop&auto=format&q=80"
+        alt="Casual Set"
+        loading="lazy"
+      >
+      <div class="look-card__label">
+        <span class="look-card__name">Casual Set</span>
+        <span class="look-card__arrow">→</span>
+      </div>
+    </div>
+
+    <!-- Card 3 — normal -->
+    <div class="look-card fade-in fade-in-delay-2">
+      <img
+        class="look-card__img"
+        src="https://images.unsplash.com/photo-1539109136081-bdad5b0bfa59?w=400&h=380&fit=crop&auto=format&q=80"
+        alt="Everyday Look"
+        loading="lazy"
+      >
+      <div class="look-card__label">
+        <span class="look-card__name">Everyday Look</span>
+        <span class="look-card__arrow">→</span>
+      </div>
+    </div>
+
+    <!-- Card 4 — short -->
+    <div class="look-card fade-in fade-in-delay-3">
+      <img
+        class="look-card__img"
+        src="https://images.unsplash.com/photo-1487222477894-8a7a1d243d9b?w=400&h=300&fit=crop&auto=format&q=80"
+        alt="Soft Minimal"
+        loading="lazy"
+      >
+      <div class="look-card__label">
+        <span class="look-card__name">Soft Minimal</span>
+        <span class="look-card__arrow">→</span>
+      </div>
+    </div>
+
+    <!-- Card 5 — tall -->
+    <div class="look-card fade-in">
+      <img
+        class="look-card__img"
+        src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=560&fit=crop&auto=format&q=80"
+        alt="Street Style"
+        loading="lazy"
+      >
+      <div class="look-card__label">
+        <span class="look-card__name">Street Style</span>
+        <span class="look-card__arrow">→</span>
+      </div>
+    </div>
+
+    <!-- Card 6 — normal -->
+    <div class="look-card fade-in fade-in-delay-1">
+      <img
+        class="look-card__img"
+        src="https://images.unsplash.com/photo-1483985988041-6d7c5a8b8f03?w=400&h=380&fit=crop&auto=format&q=80"
+        alt="Floral Vibes"
+        loading="lazy"
+      >
+      <div class="look-card__label">
+        <span class="look-card__name">Floral Vibes</span>
+        <span class="look-card__arrow">→</span>
+      </div>
+    </div>
+
+    <!-- Card 7 — normal -->
+    <div class="look-card fade-in fade-in-delay-2">
+      <img
+        class="look-card__img"
+        src="https://images.unsplash.com/photo-1475180098004-ca77a66827be?w=400&h=400&fit=crop&auto=format&q=80"
+        alt="Linen Set"
+        loading="lazy"
+      >
+      <div class="look-card__label">
+        <span class="look-card__name">Linen Set</span>
+        <span class="look-card__arrow">→</span>
+      </div>
+    </div>
+
+    <!-- Card 8 — CTA card -->
+    <a href="#" class="look-card look-card--cta cta-link fade-in fade-in-delay-3">
+      <p class="cta-card__title">Discover more looks in the full catalog</p>
+      <p class="cta-card__sub">Hundreds of outfit ideas waiting for you</p>
+      <span class="cta-card__btn">
+        View All
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+
+  </div>
+</section>
+
+<!-- ================================================
+     TRUST STRIP
+================================================ -->
+<section class="trust">
+  <div class="trust__inner">
+    <div class="trust-item fade-in">
+      <span class="trust-item__icon">✦</span>
+      <h3 class="trust-item__title">Trend-Inspired Looks</h3>
+      <p class="trust-item__text">Fresh styles selected from what's actually trending this season</p>
+    </div>
+    <div class="trust-item fade-in fade-in-delay-1">
+      <span class="trust-item__icon">✦</span>
+      <h3 class="trust-item__title">Easy Everyday Styling</h3>
+      <p class="trust-item__text">Outfits that look great without overthinking — for real daily life</p>
+    </div>
+    <div class="trust-item fade-in fade-in-delay-2">
+      <span class="trust-item__icon">✦</span>
+      <h3 class="trust-item__title">Looks for Every Mood</h3>
+      <p class="trust-item__text">Casual, chic, relaxed or bold — find the style that fits your day</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     FINAL CTA
+================================================ -->
+<section class="final-cta" id="cta">
+  <div class="final-cta__inner fade-in">
+    <p class="final-cta__eyebrow">Explore the full collection</p>
+    <h2 class="final-cta__title">Find more outfit ideas<br>and <em>fashion picks</em></h2>
+    <p class="final-cta__text">
+      Browse the full catalog for hundreds of curated looks,<br>
+      everyday styles and fresh outfit inspiration.
+    </p>
+    <div class="final-cta__actions">
+      <a href="#" id="final-cta-main" class="btn btn--primary btn--lg">
+        Open Collection
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <p class="final-cta__note">Curated style picks · Updated regularly</p>
+  </div>
+</section>
+
+<!-- ================================================
+     FOOTER
+================================================ -->
+<footer class="footer">
+  Style Edit · Fashion inspiration &amp; curated looks
+</footer>
+
+<!-- ================================================
+     STICKY MOBILE CTA
+================================================ -->
+<div class="sticky-cta" id="sticky-cta">
+  <a href="#" id="sticky-cta-link">View Collection →</a>
+</div>
+
+<!-- ================================================
+     SCRIPT
+================================================ -->
+<script>
+(function () {
+
+  /* ---- 1. Attach CTA URL to all buttons ---- */
+  function buildUrl() {
+    var base = CTA_URL;
+    var params = new URLSearchParams(window.location.search);
+    var passKeys = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content',
+                    'sub1','sub2','sub3','sub4','clickid','fbclid','gclid'];
+    var out = new URLSearchParams();
+    passKeys.forEach(function(k) { if (params.get(k)) out.set(k, params.get(k)); });
+    var qs = out.toString();
+    return qs ? base + (base.indexOf('?') > -1 ? '&' : '?') + qs : base;
+  }
+
+  var ctaSelectors = ['#nav-cta','#hero-cta-main','#hero-cta-sec',
+                      '#final-cta-main','#sticky-cta-link','.cta-link'];
+  ctaSelectors.forEach(function(sel) {
+    document.querySelectorAll(sel).forEach(function(el) {
+      el.href = buildUrl();
+    });
+  });
+
+  /* ---- 2. Fade-in on scroll (Intersection Observer) ---- */
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(function(el) { io.observe(el); });
+
+  /* Make hero content visible immediately */
+  document.querySelectorAll('.hero .fade-in, .hero__content').forEach(function(el) {
+    el.classList.add('visible');
+  });
+
+  /* ---- 3. Hide sticky CTA when final CTA is visible ---- */
+  var sticky = document.getElementById('sticky-cta');
+  var finalSection = document.getElementById('cta');
+  if (sticky && finalSection) {
+    var stickyObserver = new IntersectionObserver(function(entries) {
+      sticky.style.opacity = entries[0].isIntersecting ? '0' : '1';
+      sticky.style.pointerEvents = entries[0].isIntersecting ? 'none' : 'auto';
+    }, { threshold: 0.2 });
+    stickyObserver.observe(finalSection);
+  }
+
+  /* ---- 4. Marquee: clone for seamless infinite scroll ---- */
+  // Already duplicated in HTML — no JS needed
+
+})();
+</script>
+
+</body>
+</html>
