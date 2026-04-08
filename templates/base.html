@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITLE}}</title>
+  <meta name="description" content="{{DESCRIPTION}}">
+
+  <!-- Google Fonts: Inter (UI workhorse) + customize per project -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Feather Icons (lightweight, open-source) -->
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+
+  <style>
+    /* ===== DESIGN TOKENS — edit per project ===== */
+    :root {
+      --color-primary:   #F32B2B;   /* CTA, highlights */
+      --color-bg:        #FFFFFF;
+      --color-surface:   #F5F5F5;
+      --color-dark:      #1A1A2E;   /* dark sections */
+      --color-text:      #232427;
+      --color-text-muted: #6B7280;
+      --color-white:     #FFFFFF;
+
+      --font-family:     'Inter', Arial, sans-serif;
+      --font-size-xs:    12px;
+      --font-size-sm:    14px;
+      --font-size-base:  16px;
+      --font-size-lg:    20px;
+      --font-size-xl:    28px;
+      --font-size-2xl:   40px;
+      --font-size-3xl:   56px;
+
+      --radius-sm:  8px;
+      --radius-md:  16px;
+      --radius-pill: 30px;
+
+      --shadow-sm:  0 2px 8px rgba(0,0,0,.08);
+      --shadow-md:  0 8px 32px rgba(0,0,0,.12);
+      --shadow-lg:  0 24px 64px rgba(0,0,0,.16);
+
+      --max-width:  1200px;
+      --section-py: 80px;
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body { font-family: var(--font-family); font-size: var(--font-size-base); color: var(--color-text); background: var(--color-bg); line-height: 1.6; }
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ===== LAYOUT ===== */
+    .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+    .section    { padding: var(--section-py) 0; }
+    .section--dark { background: var(--color-dark); color: var(--color-white); }
+    .section--surface { background: var(--color-surface); }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      height: 62px; background: var(--color-bg);
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      display: flex; align-items: center;
+    }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .nav__logo { font-size: 20px; font-weight: 700; color: var(--color-text); }
+    .nav__cta  { }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 32px; border-radius: var(--radius-pill);
+      font-family: var(--font-family); font-size: var(--font-size-base); font-weight: 600;
+      cursor: pointer; border: none; transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn--primary { background: var(--color-primary); color: var(--color-white); }
+    .btn--primary:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(243,43,43,.35); }
+    .btn--outline { background: transparent; color: var(--color-primary); border: 2px solid var(--color-primary); }
+    .btn--outline:hover { background: var(--color-primary); color: var(--color-white); }
+    .btn--dark { background: var(--color-dark); color: var(--color-white); }
+    .btn--dark:hover { opacity: 0.88; }
+    .btn--lg { padding: 18px 48px; font-size: var(--font-size-lg); }
+    .btn--sm { padding: 10px 20px; font-size: var(--font-size-sm); }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh; padding-top: 62px;
+      display: flex; align-items: center;
+    }
+    .hero__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .hero__tag   { display: inline-block; background: rgba(243,43,43,.1); color: var(--color-primary); padding: 6px 14px; border-radius: var(--radius-pill); font-size: var(--font-size-sm); font-weight: 600; margin-bottom: 20px; }
+    .hero__title { font-size: var(--font-size-3xl); font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+    .hero__title span { color: var(--color-primary); }
+    .hero__desc  { font-size: var(--font-size-lg); color: var(--color-text-muted); margin-bottom: 36px; line-height: 1.7; }
+    .hero__cta   { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+    .hero__trust { margin-top: 24px; font-size: var(--font-size-sm); color: var(--color-text-muted); }
+    .hero__image { position: relative; }
+    .hero__image img { border-radius: var(--radius-md); box-shadow: var(--shadow-lg); }
+
+    /* ===== STATS BAR ===== */
+    .stats { padding: 40px 0; border-top: 1px solid rgba(0,0,0,.06); border-bottom: 1px solid rgba(0,0,0,.06); }
+    .stats__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
+    .stats__value { font-size: var(--font-size-2xl); font-weight: 800; color: var(--color-text); }
+    .stats__label { font-size: var(--font-size-sm); color: var(--color-text-muted); margin-top: 4px; }
+
+    /* ===== FEATURES ===== */
+    .features__header { text-align: center; margin-bottom: 60px; }
+    .features__grid  { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .feature-card {
+      padding: 32px; border-radius: var(--radius-md);
+      background: var(--color-bg); border: 1px solid rgba(0,0,0,.08);
+      transition: all 0.2s ease;
+    }
+    .feature-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+    .feature-card__icon { width: 48px; height: 48px; background: rgba(243,43,43,.1); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: var(--color-primary); }
+    .feature-card__title { font-size: var(--font-size-lg); font-weight: 700; margin-bottom: 12px; }
+    .feature-card__text  { color: var(--color-text-muted); line-height: 1.7; }
+
+    /* ===== SECTION TITLES ===== */
+    .section-title { font-size: var(--font-size-2xl); font-weight: 800; line-height: 1.2; margin-bottom: 16px; }
+    .section-title span { color: var(--color-primary); }
+    .section-subtitle { font-size: var(--font-size-lg); color: var(--color-text-muted); max-width: 600px; margin: 0 auto; }
+
+    /* ===== FINAL CTA ===== */
+    .cta-section {
+      text-align: center; padding: var(--section-py) 0;
+      background: var(--color-dark); color: var(--color-white);
+    }
+    .cta-section .section-title { color: var(--color-white); }
+    .cta-section .section-subtitle { color: rgba(255,255,255,.7); }
+    .cta-section__actions { margin-top: 40px; display: flex; gap: 16px; justify-content: center; }
+
+    /* ===== FOOTER ===== */
+    .footer { padding: 24px 0; text-align: center; font-size: var(--font-size-sm); color: var(--color-text-muted); border-top: 1px solid rgba(0,0,0,.06); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 960px) {
+      :root { --font-size-3xl: 40px; --font-size-2xl: 28px; }
+      .hero__inner   { grid-template-columns: 1fr; text-align: center; }
+      .hero__cta     { justify-content: center; }
+      .hero__image   { order: -1; }
+      .features__grid { grid-template-columns: 1fr 1fr; }
+      .stats__grid   { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      :root { --font-size-3xl: 32px; --section-py: 48px; }
+      .features__grid { grid-template-columns: 1fr; }
+      .stats__grid   { grid-template-columns: 1fr 1fr; }
+      .btn--lg { padding: 14px 28px; font-size: var(--font-size-base); }
+      .cta-section__actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="container">
+      <div class="nav__inner">
+        <a class="nav__logo" href="#">{{BRAND}}</a>
+        <a href="#cta" class="btn btn--primary btn--sm nav__cta">{{CTA_NAV}}</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero section">
+    <div class="container">
+      <div class="hero__inner">
+        <div class="hero__content">
+          <span class="hero__tag">{{TAG}}</span>
+          <h1 class="hero__title">{{HEADLINE}} <span>{{HEADLINE_ACCENT}}</span></h1>
+          <p class="hero__desc">{{SUBHEADLINE}}</p>
+          <div class="hero__cta">
+            <a href="{{CTA_URL}}" class="btn btn--primary btn--lg">{{CTA_MAIN}}</a>
+            <a href="{{CTA_URL_2}}" class="btn btn--outline">{{CTA_SECONDARY}}</a>
+          </div>
+          <p class="hero__trust">{{TRUST_TEXT}}</p>
+        </div>
+        <div class="hero__image">
+          <img src="{{HERO_IMAGE}}" alt="{{HERO_IMAGE_ALT}}" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats__grid">
+        <div>
+          <div class="stats__value">{{STAT_1_VALUE}}</div>
+          <div class="stats__label">{{STAT_1_LABEL}}</div>
+        </div>
+        <div>
+          <div class="stats__value">{{STAT_2_VALUE}}</div>
+          <div class="stats__label">{{STAT_2_LABEL}}</div>
+        </div>
+        <div>
+          <div class="stats__value">{{STAT_3_VALUE}}</div>
+          <div class="stats__label">{{STAT_3_LABEL}}</div>
+        </div>
+        <div>
+          <div class="stats__value">{{STAT_4_VALUE}}</div>
+          <div class="stats__label">{{STAT_4_LABEL}}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section section--surface">
+    <div class="container">
+      <div class="features__header">
+        <h2 class="section-title">{{FEATURES_TITLE}}</h2>
+        <p class="section-subtitle">{{FEATURES_SUBTITLE}}</p>
+      </div>
+      <div class="features__grid">
+        <div class="feature-card">
+          <div class="feature-card__icon"><i data-feather="{{ICON_1}}"></i></div>
+          <h3 class="feature-card__title">{{FEATURE_1_TITLE}}</h3>
+          <p class="feature-card__text">{{FEATURE_1_TEXT}}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__icon"><i data-feather="{{ICON_2}}"></i></div>
+          <h3 class="feature-card__title">{{FEATURE_2_TITLE}}</h3>
+          <p class="feature-card__text">{{FEATURE_2_TEXT}}</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card__icon"><i data-feather="{{ICON_3}}"></i></div>
+          <h3 class="feature-card__title">{{FEATURE_3_TITLE}}</h3>
+          <p class="feature-card__text">{{FEATURE_3_TEXT}}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section id="cta" class="cta-section">
+    <div class="container">
+      <h2 class="section-title">{{CTA_TITLE}}</h2>
+      <p class="section-subtitle">{{CTA_SUBTITLE}}</p>
+      <div class="cta-section__actions">
+        <a href="{{CTA_URL}}" class="btn btn--primary btn--lg">{{CTA_MAIN}}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>{{FOOTER_TEXT}}</p>
+    </div>
+  </footer>
+
+  <!-- UTM TRACKING -->
+  <script>
+    // Pass UTM params to all CTA links
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const utmKeys = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','sub1','sub2','sub3'];
+      const ctaLinks = document.querySelectorAll('a[href^="{{CTA_URL}}"], a[href^="{{CTA_URL_2}}"]');
+      ctaLinks.forEach(link => {
+        const url = new URL(link.href, window.location.origin);
+        utmKeys.forEach(k => { if (params.get(k)) url.searchParams.set(k, params.get(k)); });
+        link.href = url.toString();
+      });
+    })();
+
+    // Init feather icons
+    feather.replace({ width: 24, height: 24 });
+  </script>
+</body>
+</html>
