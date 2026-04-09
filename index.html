@@ -602,8 +602,7 @@
      CONFIG — change only this variable
 ================================================ -->
 <script>
-  // Replace with your affiliate / tracking URL
-  var CTA_URL = "https://www.shein.com";
+  var CTA_URL = "https://ultratraffic.online/6sLZ2g";
   var CTA_TEXT_NAV = "View Collection";
   var CTA_TEXT_HERO = "Explore Looks";
   var CTA_TEXT_FINAL = "Open Collection";
@@ -893,7 +892,9 @@
     var base = CTA_URL;
     var params = new URLSearchParams(window.location.search);
     var passKeys = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content',
-                    'sub1','sub2','sub3','sub4','clickid','fbclid','gclid'];
+                    'sub1','sub2','sub3','sub4','clickid','fbclid','gclid',
+                    'ttclid','creative_id','ad_campaign_id','campaign_name',
+                    'adgroup_name','adgroup_id','creative_name','frm'];
     var out = new URLSearchParams();
     passKeys.forEach(function(k) { if (params.get(k)) out.set(k, params.get(k)); });
     var qs = out.toString();
