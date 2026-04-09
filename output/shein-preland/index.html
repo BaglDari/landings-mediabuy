@@ -1025,5 +1025,49 @@
 })();
 </script>
 
+<!-- TikTok sub passthrough -->
+<script>
+(function() {
+  const paramNames = [
+    "ttclid",
+    "creative_id",
+    "ad_campaign_id",
+    "campaign_name",
+    "adgroup_name",
+    "adgroup_id",
+    "creative_name",
+    "frm"
+  ];
+
+  function getParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const collected = {};
+    paramNames.forEach(name => {
+      const value = urlParams.get(name);
+      if (value !== null) {
+        collected[name] = value;
+      }
+    });
+    return collected;
+  }
+
+  function appendParamsToLink(link, params) {
+    const url = new URL(link.href);
+    for (const [key, value] of Object.entries(params)) {
+      url.searchParams.set(key, value);
+    }
+    link.href = url.toString();
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const params = getParams();
+    const links = document.querySelectorAll("a[href]");
+    links.forEach(link => {
+      appendParamsToLink(link, params);
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
