@@ -100,7 +100,7 @@
       color: var(--white);
     }
     .btn--lg { padding: 17px 48px; font-size: 16px; }
-    .btn--sm { padding: 10px 22px; font-size: 13px; }
+    .btn--sm { padding: 7px 16px; font-size: 12px; }
     .btn svg { width: 16px; height: 16px; }
 
     /* =============================================
@@ -529,8 +529,11 @@
       line-height: 1.4;
       white-space: nowrap;
     }
+    .promo-banner__short { display: none; }
     @media (max-width: 480px) {
-      .promo-banner { font-size: 12px; white-space: normal; }
+      .promo-banner { font-size: 12px; }
+      .promo-banner__full { display: none; }
+      .promo-banner__short { display: inline; }
     }
     .promo-banner strong {
       color: #fff;
@@ -694,7 +697,8 @@
      PROMO ANNOUNCEMENT BAR
 ================================================ -->
 <div class="promo-banner">
-  Código promo&nbsp;<strong>AFFQ130</strong>&nbsp;—&nbsp;<strong>30% de desconto</strong>&nbsp;no seu primeiro pedido&nbsp;↓
+  <span class="promo-banner__full">Código promo&nbsp;<strong>AFFQ130</strong>&nbsp;—&nbsp;<strong>30% de desconto</strong>&nbsp;no seu primeiro pedido&nbsp;↓</span>
+  <span class="promo-banner__short"><strong>AFFQ130</strong>&nbsp;—&nbsp;<strong>30% off</strong>&nbsp;↓</span>
 </div>
 
 <!-- ================================================
